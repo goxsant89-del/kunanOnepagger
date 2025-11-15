@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kunan - One Pager (Inversionistas)</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de la tipografía Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Ajuste de colores para la identidad de Kunan */
+        :root {
+            --color-kunan-green: #00A859; /* Verde Esmeralda (Principal) */
+            --color-kunan-black: #1A1A1A; /* Negro Profundo (Fondo/Secciones Oscuras) */
+            --color-kunan-yellow: #FFC107; /* Amarillo Cálido (Acento Secundario) */
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb; /* Fondo blanco/gris muy claro */
+        }
+        .text-kunan-green { color: var(--color-kunan-green); }
+        .bg-kunan-green { background-color: var(--color-kunan-green); }
+        .border-kunan-green { border-color: var(--color-kunan-green); }
+        .bg-kunan-black { background-color: var(--color-kunan-black); } /* Clase actualizada */
+        .text-kunan-dark { color: var(--color-kunan-black); } /* Mantengo la clase original por si acaso */
+        .text-kunan-yellow { color: var(--color-kunan-yellow); }
+
+        /* Iconography (Simple SVG for visual elements) */
+        .icon { width: 1.5rem; height: 1.5rem; }
+
+        /* Custom style for minimal graph placeholder */
+        .graph-line {
+            stroke: var(--color-kunan-green);
+            stroke-width: 4;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Loading indicator for API calls */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-left-color: #FFC107; /* Usando el amarillo de acento para el spinner */
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Custom styles for the audio section */
+        #audio-player-controls {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: #e5e7eb;
+            border-radius: 0.5rem;
+        }
+        #audio-player-controls audio {
+            flex-grow: 1;
+            margin-left: 1rem;
+            min-width: 100px;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- 1. Encabezado / Hero Section (Black Background for Impact) -->
+        <header class="bg-kunan-black text-white py-20 rounded-b-2xl shadow-xl">
+            <div class="max-w-4xl mx-auto text-center px-4">
+                <!-- Logo/Branding -->
+                <div class="text-5xl font-extrabold mb-4 flex items-center justify-center">
+                    <span class="text-kunan-green mr-3">K</span>unan
+                </div>
+                <!-- Título -->
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 leading-none">
+                    Kunan — <span class="text-kunan-green">Tu dinero, tu aprendizaje, tu crecimiento.</span>
+                </h1>
+                <!-- Subtítulo -->
+                <p class="text-xl md:text-2xl text-gray-300 mb-10 mt-6 max-w-2xl mx-auto">
+                    La primera billetera digital que combina transacciones simples con educación financiera práctica.
+                </p>
+                <!-- CTA -->
+                <a href="#" class="inline-block bg-kunan-green text-white font-bold py-3 px-8 rounded-xl hover:bg-opacity-90 transition duration-300 text-lg shadow-lg">
+                    Comenzar ahora
+                </a>
+            </div>
+        </header>
+
+        <main class="py-16 px-4 md:px-8">
+
+            <!-- 9. Lector de Pitch Audio (Gemini TTS Feature) -->
+            <section id="gemini-tts" class="mb-16 p-8 bg-gray-100 rounded-2xl shadow-2xl border-2 border-kunan-green/50">
+                <h2 class="text-3xl font-bold mb-6 flex items-center text-kunan-dark">
+                    <svg class="icon text-kunan-green mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                    Lector de Pitch Audio ✨ (TTS)
+                </h2>
+                <p class="mb-6 text-gray-600">Selecciona una sección y escucha un resumen narrado de nuestro *pitch* para una experiencia más rápida.</p>
+
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <select id="tts-selector" class="flex-grow p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-kunan-green focus:border-kunan-green">
+                        <option value="problema">1. El Problema</option>
+                        <option value="solucion">2. La Solución Kunan</option>
+                        <option value="modelo">4. Modelo de Ingresos</option>
+                        <option value="kpis">5. Métricas Clave (KPIs)</option>
+                        <option value="buscamos">7. Qué Buscamos (Capital Semilla)</option>
+                    </select>
+                    <button id="tts-button" class="bg-kunan-green text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-opacity-90 transition duration-200 flex items-center justify-center">
+                        Generar Audio ✨
+                        <div id="tts-spinner" class="spinner ml-3 hidden"></div>
+                    </button>
+                </div>
+                
+                <!-- Audio Player Output -->
+                <div id="audio-player-controls" class="hidden">
+                    <p class="font-semibold text-gray-700">Reproducir:</p>
+                    <audio id="audio-output" controls></audio>
+                </div>
+
+                <div id="tts-error-message" class="hidden mt-4 p-4 bg-red-100 text-red-700 rounded-lg">
+                    Ocurrió un error al generar el audio. Por favor, inténtalo de nuevo.
+                </div>
+            </section>
+            
+            <!-- Global Grid Layout for Main Content -->
+            <div class="grid lg:grid-cols-2 gap-16">
+
+                <!-- Columna Izquierda: Problema, Solución, Modelo de Ingresos -->
+                <div class="space-y-16">
+                    <!-- 2. Problema -->
+                    <section id="problema" class="section-content p-8 bg-white rounded-2xl shadow-lg border-t-4 border-kunan-green/50">
+                        <h2 class="text-3xl font-bold mb-6 flex items-center">
+                            <svg class="icon text-kunan-green mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            El Problema
+                        </h2>
+                        <ul class="space-y-4 text-lg">
+                            <li class="flex items-start">
+                                <span class="text-kunan-green text-2xl mr-3 leading-none">•</span>
+                                Baja educación financiera en jóvenes y trabajadores informales.
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-kunan-green text-2xl mr-3 leading-none">•</span>
+                                Usuarios no tienen herramientas para ahorrar ni visualizar su comportamiento financiero.
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-kunan-green text-2xl mr-3 leading-none">•</span>
+                                Las billeteras digitales actuales solo permiten transar, no enseñar.
+                            </li>
+                        </ul>
+                    </section>
+
+                    <!-- 3. Solución -->
+                    <section id="solucion" class="section-content p-8 bg-white rounded-2xl shadow-lg border-t-4 border-kunan-green/50">
+                        <h2 class="text-3xl font-bold mb-6 flex items-center">
+                            <svg class="icon text-kunan-green mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            La Solución Kunan
+                        </h2>
+                        <div class="space-y-4">
+                            <div class="flex items-start bg-gray-50 p-3 rounded-lg">
+                                <svg class="icon text-kunan-green mt-1 mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                <div>
+                                    <h3 class="font-semibold text-xl">Ahorro Automático</h3>
+                                    <p class="text-gray-600">Funcionalidades de redondeo y metas de ahorro inteligentes.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start bg-gray-50 p-3 rounded-lg">
+                                <svg class="icon text-kunan-green mt-1 mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
+                                <div>
+                                    <h3 class="font-semibold text-xl">Dashboard Financiero Inteligente</h3>
+                                    <p class="text-gray-600">Visualización de ingresos, gastos y retos financieros gamificados.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start bg-gray-50 p-3 rounded-lg">
+                                <svg class="icon text-kunan-green mt-1 mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 0 0 0-16v16"></path><path d="M11.05 18.05a8 8 0 0 1 0-12.1"></path><path d="M19.07 10.97a8 8 0 0 0 0 2.06"></path></svg>
+                                <div>
+                                    <h3 class="font-semibold text-xl">Simuladores y Calculadoras</h3>
+                                    <p class="text-gray-600">Herramientas prácticas para toma de decisiones financieras.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start bg-gray-50 p-3 rounded-lg">
+                                <svg class="icon text-kunan-green mt-1 mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M12 18v-6"></path><path d="M15 15h-6"></path></svg>
+                                <div>
+                                    <h3 class="font-semibold text-xl">Servicios Ligeros para Pymes</h3>
+                                    <p class="text-gray-600">Dashboard contable y asesoría básica incluida.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Columna Derecha: Modelo de Ingresos, Búsqueda de Capital -->
+                <div class="space-y-16">
+                    <!-- 4. Modelo de Ingresos -->
+                    <section id="modelo" class="section-content p-8 bg-kunan-black text-white rounded-2xl shadow-xl">
+                        <h2 class="text-3xl font-bold mb-6 flex items-center text-kunan-green">
+                            <svg class="icon text-kunan-green mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                            Modelo de Ingresos
+                        </h2>
+                        <dl class="space-y-4 text-lg">
+                            <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                <dt class="font-medium text-gray-300">Fee por transacción (P2P)</dt>
+                                <dd class="font-bold text-kunan-yellow">COP 200</dd>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                <dt class="font-medium text-gray-300">Comisión Merchants (0.7% VT)</dt>
+                                <dd class="font-bold text-white">0.7% Volumen</dd>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                <dt class="font-medium text-gray-300">Servicios Pymes (SaaS)</dt>
+                                <dd class="font-bold text-white">COP 49.900/mes</dd>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <dt class="font-medium text-gray-300">Margen sobre ahorros inteligentes</dt>
+                                <dd class="font-bold text-white">0.2% Mensual</dd>
+                            </div>
+                        </dl>
+                    </section>
+
+                    <!-- 7. Qué buscamos (para Impacta) -->
+                    <section id="buscamos" class="section-content p-8 bg-white rounded-2xl shadow-lg border-t-4 border-kunan-green/50">
+                        <h2 class="text-3xl font-bold mb-6 flex items-center">
+                            <svg class="icon text-kunan-green mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                            Qué Buscamos (Capital Semilla)
+                        </h2>
+                        <ul class="space-y-4 text-lg">
+                            <li class="flex items-start">
+                                <span class="text-kunan-green font-bold mr-3">COP 20–40 Millones</span>
+                                <p class="text-gray-600">Capital semilla para desarrollo de MVP y expansión inicial.</p>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-kunan-green font-bold mr-3">•</span>
+                                <p class="text-gray-600">Mentoría en producto financiero y cumplimiento (regulación).</p>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-kunan-green font-bold mr-3">•</span>
+                                <p class="text-gray-600">Acceso a comercios y pymes para validación y piloto.</p>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+
+            <!-- 5. Métricas Clave (KPIs) & Gráficos -->
+            <section id="kpis" class="section-content mt-16 p-8 bg-kunan-black rounded-2xl shadow-xl">
+                <h2 class="text-3xl font-bold mb-8 text-white flex items-center">
+                    <svg class="icon text-kunan-green mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 15c.7-4 2.1-8.2-.1-10.4-1.9-2.1-5.1-.3-10 4-4.9 4.2-7.5 7.7-6.2 9.5 1.3 1.8 4.7 1.6 8.5 1.6h5.8z"></path></svg>
+                    Métricas Clave (KPIs Proyectados)
+                </h2>
+                <!-- Tarjetas de KPIs -->
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6 text-center mb-12">
+                    <!-- Usamos un gris oscuro diferente para las tarjetas para separarlas del fondo negro principal -->
+                    <div class="p-4 bg-[#333333] rounded-xl shadow-inner border-t-2 border-kunan-yellow">
+                        <p class="text-xs font-semibold text-kunan-green uppercase tracking-wider">Usuarios mes 12</p>
+                        <p class="text-2xl font-extrabold text-white mt-1">25,000</p>
+                    </div>
+                    <div class="p-4 bg-[#333333] rounded-xl shadow-inner border-t-2 border-kunan-yellow">
+                        <p class="text-xs font-semibold text-kunan-green uppercase tracking-wider">Ingresos Anuales Proy.</p>
+                        <p class="text-2xl font-extrabold text-white mt-1">COP 550 M</p>
+                    </div>
+                    <div class="p-4 bg-[#333333] rounded-xl shadow-inner border-t-2 border-kunan-yellow">
+                        <p class="text-xs font-semibold text-kunan-green uppercase tracking-wider">Costos Anuales</p>
+                        <p class="text-2xl font-extrabold text-white mt-1">COP 400 M</p>
+                    </div>
+                    <div class="p-4 bg-[#333333] rounded-xl shadow-inner border-t-2 border-kunan-yellow">
+                        <p class="text-xs font-semibold text-kunan-green uppercase tracking-wider">EBITDA Anual</p>
+                        <p class="text-2xl font-extrabold text-white mt-1">COP 150 M</p>
+                    </div>
+                    <div class="p-4 bg-[#333333] rounded-xl shadow-inner border-t-2 border-kunan-yellow">
+                        <p class="text-xs font-semibold text-kunan-green uppercase tracking-wider">CAC Promedio</p>
+                        <p class="text-2xl font-extrabold text-white mt-1">COP 4,000</p>
+                    </div>
+                    <div class="p-4 bg-[#333333] rounded-xl shadow-inner border-t-2 border-kunan-yellow">
+                        <p class="text-xs font-semibold text-kunan-green uppercase tracking-wider">LTV Promedio</p>
+                        <p class="text-2xl font-extrabold text-white mt-1">COP 30,000</p>
+                    </div>
+                    <div class="p-4 bg-[#333333] rounded-xl shadow-inner border-t-2 border-kunan-yellow">
+                        <p class="text-xs font-semibold text-kunan-green uppercase tracking-wider">Ratio LTV/CAC</p>
+                        <p class="text-2xl font-extrabold text-white mt-1">7.5 : 1</p>
+                    </div>
+                </div>
+
+                <!-- Mini-Gráficos Minimalistas (Placeholders SVG) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Gráfico 1: Crecimiento de Usuarios -->
+                    <div class="p-4 bg-[#333333] rounded-xl shadow-lg">
+                        <p class="text-sm font-semibold text-gray-400 mb-2">Crecimiento de Usuarios</p>
+                        <svg viewBox="0 0 100 50" class="w-full h-24">
+                            <polyline class="graph-line" points="5,45 25,30 50,15 75,20 95,5"></polyline>
+                            <text x="5" y="49" class="text-xs fill-gray-500">M1</text>
+                            <text x="90" y="49" class="text-xs fill-gray-500">M12</text>
+                        </svg>
+                    </div>
+                    <!-- Gráfico 2: Ingresos Mensuales -->
+                    <div class="p-4 bg-[#333333] rounded-xl shadow-lg">
+                        <p class="text-sm font-semibold text-gray-400 mb-2">Ingresos Mensuales</p>
+                        <svg viewBox="0 0 100 50" class="w-full h-24">
+                            <polyline class="graph-line" points="5,40 25,35 50,25 75,10 95,15"></polyline>
+                            <text x="5" y="49" class="text-xs fill-gray-500">M1</text>
+                            <text x="90" y="49" class="text-xs fill-gray-500">M12</text>
+                        </svg>
+                    </div>
+                    <!-- Gráfico 3: EBITDA/Utilidad Mensual -->
+                    <div class="p-4 bg-[#333333] rounded-xl shadow-lg">
+                        <p class="text-sm font-semibold text-gray-400 mb-2">EBITDA/Utilidad Mensual</p>
+                        <svg viewBox="0 0 100 50" class="w-full h-24">
+                            <polyline class="graph-line" points="5,45 25,40 50,35 75,25 95,10"></polyline>
+                            <text x="5" y="49" class="text-xs fill-gray-500">M1</text>
+                            <text x="90" y="49" class="text-xs fill-gray-500">M12</text>
+                        </svg>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. Roadmap 12 meses -->
+            <section id="roadmap" class="mt-16 p-8 bg-white rounded-2xl shadow-lg">
+                <h2 class="text-3xl font-bold mb-10 flex items-center">
+                    <svg class="icon text-kunan-green mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22l-1-18h-8l-1 18"></path><path d="M17 2l-1 18h-8l-1-18"></path></svg>
+                    Hoja de Ruta (Roadmap 12 Meses)
+                </h2>
+
+                <!-- Timeline Visual -->
+                <div class="relative max-w-5xl mx-auto">
+                    <!-- Línea principal -->
+                    <div class="absolute h-0.5 bg-gray-300 w-full top-3"></div>
+
+                    <div class="grid grid-cols-3 gap-8 relative z-10">
+                        <!-- M0-M3 -->
+                        <div class="text-center">
+                            <div class="w-6 h-6 bg-kunan-green rounded-full mx-auto shadow-xl border-4 border-white"></div>
+                            <h3 class="text-xl font-bold mt-4">M0–M3</h3>
+                            <p class="text-sm text-gray-600">Piloto, validación y onboarding de los primeros usuarios.</p>
+                        </div>
+                        <!-- M4-M6 -->
+                        <div class="text-center">
+                            <div class="w-6 h-6 bg-kunan-green rounded-full mx-auto shadow-xl border-4 border-white"></div>
+                            <h3 class="text-xl font-bold mt-4">M4–M6</h3>
+                            <p class="text-sm text-gray-600">Alianzas estratégicas y crecimiento masivo de usuarios.</p>
+                        </div>
+                        <!-- M7-M12 -->
+                        <div class="text-center">
+                            <div class="w-6 h-6 bg-kunan-green rounded-full mx-auto shadow-xl border-4 border-white"></div>
+                            <h3 class="text-xl font-bold mt-4">M7–M12</h3>
+                            <p class="text-sm text-gray-600">Lanzamiento de servicios para pymes y expansión del módulo de ahorro.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. Asistente de Análisis de Inversión (Gemini API Feature - LLM) -->
+            <section id="gemini-analyst" class="mt-16 p-8 bg-gray-100 rounded-2xl shadow-2xl border-2 border-kunan-green/50">
+                <h2 class="text-3xl font-bold mb-6 flex items-center text-kunan-dark">
+                    <svg class="icon text-kunan-green mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    Asistente de Análisis de Inversión ✨
+                </h2>
+                <p class="mb-6 text-gray-600">Simula una sesión de preguntas y respuestas con un VC escéptico. Selecciona una sección para generar una objeción y una respuesta contundente.</p>
+                
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <select id="section-selector" class="flex-grow p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-kunan-green focus:border-kunan-green">
+                        <option value="problema">1. El Problema</option>
+                        <option value="solucion">2. La Solución Kunan</option>
+                        <option value="modelo">4. Modelo de Ingresos</option>
+                        <option value="kpis">5. Métricas Clave (KPIs)</option>
+                        <option value="buscamos">7. Qué Buscamos (Capital Semilla)</option>
+                    </select>
+                    <button id="analyze-button" class="bg-kunan-black text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-gray-700 transition duration-200 flex items-center justify-center">
+                        Generar Q&A ✨
+                        <div id="loading-spinner" class="spinner ml-3 hidden"></div>
+                    </button>
+                </div>
+                
+                <!-- Output Area -->
+                <div id="analysis-output" class="p-6 bg-white rounded-xl shadow-inner border border-gray-200 hidden">
+                    <div id="output-objection" class="mb-4 p-4 border-l-4 border-red-500 bg-red-50">
+                        <h3 class="text-xl font-bold text-red-700 mb-1">Objeción del Inversionista:</h3>
+                        <p class="text-gray-700" id="objection-text"></p>
+                    </div>
+                    <div id="output-response" class="p-4 border-l-4 border-kunan-green bg-green-50">
+                        <h3 class="text-xl font-bold text-kunan-green mb-1">Respuesta Kunan:</h3>
+                        <p class="text-gray-700" id="response-text"></p>
+                    </div>
+                </div>
+
+                <div id="error-message" class="hidden mt-4 p-4 bg-red-100 text-red-700 rounded-lg">
+                    Ocurrió un error al contactar al asistente. Por favor, inténtalo de nuevo.
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer (Simple Contact/Closing) - Utilizando el color de marca Negro -->
+        <footer class="bg-kunan-black text-white py-8 mt-16 rounded-t-2xl">
+            <div class="max-w-4xl mx-auto text-center px-4">
+                <p class="text-xl font-bold mb-3">Contacto para Inversores</p>
+                <div class="space-y-2 text-md text-gray-300">
+                    <p class="flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2 text-kunan-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        Email: <a href="mailto:dtellez76515@universidadean.edu.co" class="ml-1 text-kunan-green hover:underline">dtellez76515@universidadean.edu.co</a>
+                    </p>
+                    <p class="flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2 text-kunan-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-5.65-5.65 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        Teléfono: <span class="ml-1">+57 314 292 5427</span>
+                    </p>
+                </div>
+            </div>
+            <p class="text-sm text-gray-400 mt-5">Kunan: Educación Financiera en tu Bolsillo | Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript para Firebase y Gemini API -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, setDoc, doc, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Configuración y variables globales (proporcionadas por el entorno)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        const apiKey = ""; 
+
+        let db, auth, userId = null;
+        let isAuthReady = false;
+
+        // --- 1. Inicialización de Firebase (Copiado del estado anterior) ---
+        try {
+            if (Object.keys(firebaseConfig).length > 0) {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                setLogLevel('Debug');
+
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        userId = user.uid;
+                    } else {
+                        signInAnonymously(auth).then(userCredential => {
+                             userId = userCredential.user.uid;
+                        }).catch(e => {
+                             console.error("Error signing in anonymously:", e);
+                             userId = crypto.randomUUID();
+                        });
+                    }
+                    isAuthReady = true;
+                });
+
+                if (initialAuthToken) {
+                    signInWithCustomToken(auth, initialAuthToken).catch(e => {
+                        console.error("Error signing in with custom token:", e);
+                    });
+                }
+            } else {
+                 console.warn("Firebase config not available. Proceeding without authentication.");
+                 isAuthReady = true;
+            }
+        } catch (e) {
+            console.error("Failed to initialize Firebase:", e);
+            isAuthReady = true;
+        }
+
+        // --- 2. Funcionalidad de LLM (Q&A con JSON) ---
+        
+        const LLM_MODEL_NAME = "gemini-2.5-flash-preview-09-2025";
+        const LLM_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${LLM_MODEL_NAME}:generateContent?key=${apiKey}`;
+
+        // Función de utilidad para obtener el texto de una sección
+        function getSectionText(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (!section) return "";
+            
+            // Excluir el título (h2) del contenido
+            let text = section.innerText;
+            const h2 = section.querySelector('h2');
+            if (h2) {
+                text = text.replace(h2.innerText, '').trim();
+            }
+            // Limitar la longitud del texto para evitar errores de contexto y TTS
+            return text.substring(0, 500); 
+        }
+
+        // Función para la llamada al API de Gemini (LLM) con reintentos
+        async function fetchGeminiResponse(userQuery, maxRetries = 5) {
+            const systemPrompt = "Actúa como un capitalista de riesgo (VC) o un analista financiero escéptico especializado en fintech en LATAM. Tu tarea es analizar el texto proporcionado (una sección de un pitch para inversores) y generar una respuesta JSON que contenga: 1) La 'Objection' más crítica que un VC plantearía sobre esa sección. 2) Una 'Respuesta Kunan' concisa y contundente para contrarrestar esa objeción, basándote en la información del pitch o conocimiento de mercado. La respuesta debe estar en español y ser estrictamente en formato JSON.";
+            
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                tools: [{ "google_search": {} }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            "Objection": { "type": "STRING", "description": "The most critical, skeptical question an investor would ask." },
+                            "Respuesta_Kunan": { "type": "STRING", "description": "The strong, data-driven answer to counter the objection." }
+                        },
+                        "propertyOrdering": ["Objection", "Respuesta_Kunan"]
+                    }
+                }
+            };
+            
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(LLM_API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                        if (jsonText) {
+                            return JSON.parse(jsonText);
+                        }
+                    } else if (response.status === 429) {
+                        const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                    } else {
+                        throw new Error(`API returned status ${response.status}`);
+                    }
+                } catch (error) {
+                    console.error(`Attempt ${i + 1} failed:`, error);
+                    if (i === maxRetries - 1) throw error;
+                }
+            }
+            throw new Error("Failed to get response from Gemini API after multiple retries.");
+        }
+
+        // Lógica de UI y Eventos para Q&A
+        const selector = document.getElementById('section-selector');
+        const analyzeButton = document.getElementById('analyze-button');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const analysisOutput = document.getElementById('analysis-output');
+        const objectionText = document.getElementById('objection-text');
+        const responseText = document.getElementById('response-text');
+        const errorMessage = document.getElementById('error-message');
+
+
+        analyzeButton.addEventListener('click', async () => {
+            const selectedSectionId = selector.value;
+            const sectionContent = getSectionText(selectedSectionId);
+            const sectionTitle = selector.options[selector.selectedIndex].text;
+            
+            if (!sectionContent || !selectedSectionId) {
+                // Usar un modal o un mensaje dentro del DOM en lugar de alert()
+                errorMessage.textContent = "Por favor, selecciona una sección con contenido para analizar.";
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+
+            analysisOutput.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            loadingSpinner.classList.remove('hidden');
+            analyzeButton.disabled = true;
+
+            const userQuery = `Analiza la siguiente sección del pitch titulada: "${sectionTitle}". Contenido: ${sectionContent}`;
+
+            try {
+                const result = await fetchGeminiResponse(userQuery);
+                
+                if (result.Objection && result.Respuesta_Kunan) {
+                    objectionText.textContent = result.Objection;
+                    responseText.textContent = result.Respuesta_Kunan;
+                    analysisOutput.classList.remove('hidden');
+                } else {
+                    errorMessage.textContent = "La IA generó una respuesta, pero el formato JSON fue incorrecto o faltó contenido clave.";
+                    errorMessage.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error("Error in Q&A generation:", error);
+                errorMessage.textContent = "Error de conexión o API: No se pudo obtener el análisis. Inténtalo más tarde.";
+                errorMessage.classList.remove('hidden');
+            } finally {
+                loadingSpinner.classList.add('hidden');
+                analyzeButton.disabled = false;
+            }
+        });
+
+
+        // --- 3. Funcionalidad de TTS (Text-to-Speech) ---
+        
+        const TTS_MODEL_NAME = "gemini-2.5-flash-preview-tts";
+        const TTS_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${TTS_MODEL_NAME}:generateContent?key=${apiKey}`;
+
+        // Utilidades para convertir PCM a WAV (Necesario para reproducir audio en el navegador)
+        function base64ToArrayBuffer(base64) {
+            const binaryString = atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        function pcmToWav(pcmData, sampleRate) {
+            const numChannels = 1;
+            const bytesPerSample = 2; // 16-bit PCM
+            const byteRate = sampleRate * numChannels * bytesPerSample;
+            const blockAlign = numChannels * bytesPerSample;
+            const dataSize = pcmData.byteLength;
+            const buffer = new ArrayBuffer(44 + dataSize);
+            const view = new DataView(buffer);
+            let offset = 0;
+
+            // RIFF chunk descriptor
+            view.setUint32(offset, 0x52494646, false); // "RIFF"
+            offset += 4;
+            view.setUint32(offset, 36 + dataSize, true); // chunkSize
+            offset += 4;
+            view.setUint32(offset, 0x57415645, false); // "WAVE"
+            offset += 4;
+
+            // FMT sub-chunk
+            view.setUint32(offset, 0x666d7420, false); // "fmt "
+            offset += 4;
+            view.setUint32(offset, 16, true); // subchunk1Size (16 for PCM)
+            offset += 4;
+            view.setUint16(offset, 1, true); // audioFormat (1 for PCM)
+            offset += 2;
+            view.setUint16(offset, numChannels, true);
+            offset += 2;
+            view.setUint32(offset, sampleRate, true);
+            offset += 4;
+            view.setUint32(offset, byteRate, true);
+            offset += 4;
+            view.setUint16(offset, blockAlign, true);
+            offset += 2;
+            view.setUint16(offset, bytesPerSample * 8, true); // bitsPerSample
+            offset += 2;
+
+            // DATA sub-chunk
+            view.setUint32(offset, 0x64617461, false); // "data"
+            offset += 4;
+            view.setUint32(offset, dataSize, true);
+            offset += 4;
+
+            // Write PCM data
+            const pcmArray = new Int16Array(pcmData);
+            for (let i = 0; i < pcmArray.length; i++) {
+                view.setInt16(offset, pcmArray[i], true);
+                offset += 2;
+            }
+
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+
+        // Función para la llamada al API de Gemini (TTS)
+        async function fetchGeminiTTS(textToSpeak, voiceName = "Kore", maxRetries = 5) {
+            // Se usa el LLM para resumir el texto y hacerlo más apto para TTS
+            const summaryPrompt = `Resume el siguiente texto del pitch para que sea fácil de escuchar, con un tono informativo y conciso, en un máximo de 50 palabras. El texto es: "${textToSpeak}"`;
+
+            const summaryPayload = {
+                contents: [{ parts: [{ text: summaryPrompt }] }],
+                systemInstruction: { parts: [{ text: "Eres un redactor profesional que resume textos complejos para voz. Responde solo con el resumen." }] },
+            };
+             
+            let finalText = textToSpeak;
+            try {
+                const summaryResponse = await fetch(LLM_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(summaryPayload)
+                });
+                const summaryResult = await summaryResponse.json();
+                finalText = summaryResult.candidates?.[0]?.content?.parts?.[0]?.text || textToSpeak;
+            } catch(e) {
+                 console.warn("Could not generate summary, using full text for TTS.", e);
+            }
+            
+            // Llamada al API de TTS
+            const ttsPayload = {
+                contents: [{ parts: [{ text: finalText }] }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: {
+                        voiceConfig: {
+                            prebuiltVoiceConfig: { voiceName: voiceName }
+                        }
+                    }
+                },
+                model: TTS_MODEL_NAME
+            };
+            
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(TTS_API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(ttsPayload)
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        const part = result?.candidates?.[0]?.content?.parts?.[0];
+                        const audioData = part?.inlineData?.data;
+                        const mimeType = part?.inlineData?.mimeType;
+
+                        if (audioData && mimeType && mimeType.startsWith("audio/L16")) {
+                            const sampleRateMatch = mimeType.match(/rate=(\d+)/);
+                            const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 16000; // Default to 16k
+                            
+                            const pcmData = base64ToArrayBuffer(audioData);
+                            const pcm16 = new Int16Array(pcmData);
+                            const wavBlob = pcmToWav(pcm16, sampleRate);
+                            return URL.createObjectURL(wavBlob);
+                        }
+                    } else if (response.status === 429) {
+                        const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                    } else {
+                        throw new Error(`TTS API returned status ${response.status}`);
+                    }
+                } catch (error) {
+                    console.error(`TTS Attempt ${i + 1} failed:`, error);
+                    if (i === maxRetries - 1) throw error;
+                }
+            }
+            throw new Error("Failed to get TTS response after multiple retries.");
+        }
+
+        // Lógica de UI y Eventos para TTS
+        const ttsSelector = document.getElementById('tts-selector');
+        const ttsButton = document.getElementById('tts-button');
+        const ttsSpinner = document.getElementById('tts-spinner');
+        const audioControls = document.getElementById('audio-player-controls');
+        const audioOutput = document.getElementById('audio-output');
+        const ttsErrorMessage = document.getElementById('tts-error-message');
+
+
+        ttsButton.addEventListener('click', async () => {
+            const selectedSectionId = ttsSelector.value;
+            const textToSpeak = getSectionText(selectedSectionId);
+            
+            if (!textToSpeak || selectedSectionId === "") {
+                ttsErrorMessage.textContent = "Por favor, selecciona una sección con contenido para generar el audio.";
+                ttsErrorMessage.classList.remove('hidden');
+                return;
+            }
+
+            audioControls.classList.add('hidden');
+            ttsErrorMessage.classList.add('hidden');
+            ttsSpinner.classList.remove('hidden');
+            ttsButton.disabled = true;
+
+            try {
+                const audioUrl = await fetchGeminiTTS(textToSpeak, "Kore"); // Voz 'Kore' (Firme)
+                
+                if (audioUrl) {
+                    audioOutput.src = audioUrl;
+                    audioControls.classList.remove('hidden');
+                    audioOutput.load();
+                    audioOutput.play();
+                } else {
+                    ttsErrorMessage.textContent = "El API de TTS no pudo generar el audio. Revisa el contenido.";
+                    ttsErrorMessage.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error("Error in TTS generation:", error);
+                ttsErrorMessage.textContent = "Error de conexión o API de TTS: No se pudo obtener el audio. Inténtalo más tarde.";
+                ttsErrorMessage.classList.remove('hidden');
+            } finally {
+                ttsSpinner.classList.add('hidden');
+                ttsButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
